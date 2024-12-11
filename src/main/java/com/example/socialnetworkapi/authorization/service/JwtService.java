@@ -1,5 +1,6 @@
 package com.example.socialnetworkapi.authorization.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
@@ -19,9 +20,9 @@ public class JwtService {
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 saat
 
     // Token oluşturma
-    public String generateToken(String username) {
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(username)  // Kullanıcı adını "subject" olarak ayarla
+                .setSubject(userDetails.getUsername())  // Kullanıcı adını "subject" olarak ayarla
                 .setIssuedAt(new Date())  // Token oluşturulma zamanını ayarla
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // Token'ın son geçerlilik tarihini ayarla
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)  // Şifreleme algoritmasını ve anahtarını belirle
