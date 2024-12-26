@@ -1,16 +1,17 @@
 package com.example.socialnetworkapi.user.node;
 
+import com.example.socialnetworkapi.follewer.Follower;
+import com.example.socialnetworkapi.followed.Followed;
+import com.example.socialnetworkapi.post.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -44,4 +45,14 @@ public class User {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @Relationship(type = "POSTED", direction = Relationship.Direction.OUTGOING)
+    private List<Post> posts;
+
+    @Relationship(type = "FOLLOWER", direction = Relationship.Direction.OUTGOING)
+    private List<Follower> followers;
+
+    @Relationship(type = "FOLLOWED", direction = Relationship.Direction.OUTGOING)
+    private List<Followed> followedList;
+
 }
