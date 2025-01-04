@@ -1,7 +1,7 @@
-package com.example.socialnetworkapi.comment;
+package com.example.socialnetworkapi.comment.node;
 
-import com.example.socialnetworkapi.like.Like;
-import com.example.socialnetworkapi.post.Post;
+import com.example.socialnetworkapi.like.node.Like;
+import com.example.socialnetworkapi.post.node.Post;
 import com.example.socialnetworkapi.user.node.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;

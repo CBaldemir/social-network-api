@@ -1,8 +1,8 @@
 package com.example.socialnetworkapi.user.node;
 
-import com.example.socialnetworkapi.follewer.Follower;
-import com.example.socialnetworkapi.followed.Followed;
-import com.example.socialnetworkapi.post.Post;
+import com.example.socialnetworkapi.follower.node.Follower;
+import com.example.socialnetworkapi.followed.node.Followed;
+import com.example.socialnetworkapi.post.node.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
