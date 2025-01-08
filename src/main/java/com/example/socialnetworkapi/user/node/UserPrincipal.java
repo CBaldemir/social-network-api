@@ -1,4 +1,4 @@
-package com.example.socialnetworkapi.user.model;
+package com.example.socialnetworkapi.user.node;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

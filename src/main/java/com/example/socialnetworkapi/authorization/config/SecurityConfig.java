@@ -1,6 +1,6 @@
 package com.example.socialnetworkapi.authorization.config;
 
-import com.example.socialnetworkapi.user.model.UserPrincipal;
+import com.example.socialnetworkapi.user.node.UserPrincipal;
 import com.example.socialnetworkapi.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

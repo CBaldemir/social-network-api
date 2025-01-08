@@ -2,7 +2,7 @@ package com.example.socialnetworkapi.authorization.service;
 
 import com.example.socialnetworkapi.authorization.dto.AuthenticationRequest;
 import com.example.socialnetworkapi.authorization.dto.AuthenticationResponse;
-import com.example.socialnetworkapi.user.model.UserPrincipal;
+import com.example.socialnetworkapi.user.node.UserPrincipal;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
