@@ -1,10 +1,10 @@
-type Query {
+type UserQuery {
     getUserById(id: ID!): User
     getUserByUsername(username: String!): User
     allUsers(page: Int!, size: Int!): UserPage
 }
 
-type Mutation {
+type UserMutation {
     createUser(username: String!, password: String!, email: String!, fullName: String, bio: String, profilePictureUrl: String): User
 }
 
@@ -28,12 +28,6 @@ type User {
     posts: [Post]
     followers: [Follower]
     followedList: [Followed]
-}
-
-type Post {
-    id: ID!
-    content: String
-    createdAt: String
 }
 
 type Follower {
