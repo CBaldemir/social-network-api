@@ -1,6 +1,6 @@
 type PostQuery {
     getPostById(id: ID!): Post
-    allUsers(page: Int!, size: Int!): PostPage
+    allPosts(page: Int!, size: Int!): PostPage
 }
 
 type PostMutation {

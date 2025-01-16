@@ -1,0 +1,15 @@
+type LikeQuery {
+    getLikeById(id: ID!): Like
+    allLikes(page: Int!, size: Int!): LikePage
+}
+
+type LikeMutation {
+    createLike(title: String!, content: String!): Like
+}
+
+type LikePage {
+    likes: [Like]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
