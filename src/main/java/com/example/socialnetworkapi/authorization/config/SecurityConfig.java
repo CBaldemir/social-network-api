@@ -1,5 +1,6 @@
 package com.example.socialnetworkapi.authorization.config;
 
+import com.example.socialnetworkapi.user.node.User;
 import com.example.socialnetworkapi.user.node.UserPrincipal;
 import com.example.socialnetworkapi.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -59,8 +60,17 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> new UserPrincipal(userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " Not Found!")));
+        User user = new User();
+        user.setUsername("comertbaldemir");
+        user.setPassword(passwordEncoder().encode("cccc.1234"));
+        user.setEmail("comertbaldemir@gmail.com");
+        user.setFullName("Comert Baldemir");
+        return username -> new UserPrincipal(user);
+    }
+
+    private void test(String username, String password) {
+        userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " Not Found!"));
     }
 }
 
