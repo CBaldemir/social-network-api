@@ -1,5 +1,6 @@
 package com.example.socialnetworkapi.authorization.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,18 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // Gizli anahtar (Bu, daha güvenli olması için dışa aktarılmamalıdır)
-    private static final String SECRET_KEY = "your-secret-key";
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
-    // Token geçerlilik süresi (Örnek: 1 saat)
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 saat
 
-    // Token oluşturma
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())  // Kullanıcı adını "subject" olarak ayarla
-                .setIssuedAt(new Date())  // Token oluşturulma zamanını ayarla
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // Token'ın son geçerlilik tarihini ayarla
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)  // Şifreleme algoritmasını ve anahtarını belirle
+                .setSubject(userDetails.getUsername())
+                .claim("roles", userDetails.getAuthorities())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }
 
@@ -57,10 +57,14 @@ public class JwtService {
 
     // Token'dan Claims (veri) çekme
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid or expired token", e);
+        }
     }
 }
 
