@@ -8,3 +8,10 @@ spring:
       password: password
 jwt:
   secret: your-secret-key
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.example: DEBUG
+    org.springframework.graphql: DEBUG
+    org.springframework.boot.autoconfigure.graphql.servlet: DEBUG
+
