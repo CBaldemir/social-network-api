@@ -4,6 +4,7 @@ schema {
 }
 
 type Query {
+    users:[User]!
     getUserById(id: ID!): User
     getUserByUsername(username: String!): User
     allUsers(page: Int!, size: Int!): UserPage
@@ -14,7 +15,7 @@ type Query {
 }
 
 type Mutation {
-    createUser(username: String!, password: String!, email: String!, fullName: String, bio: String, profilePictureUrl: String): User
+    createUser(input: CreateUserInput!): User
     createPost(title: String!, content: String!): Post
     createLike(title: String!, content: String!): Like
 }
@@ -60,6 +61,15 @@ type LikePage {
     totalCount: Int
     hasNextPage: Boolean
     hasPreviousPage: Boolean
+}
+
+input CreateUserInput {
+    username: String!
+    password: String!
+    email: String!
+    fullName: String
+    bio: String
+    profilePictureUrl: String
 }
 
 type UserPage {
