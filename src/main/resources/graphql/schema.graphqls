@@ -8,16 +8,25 @@ type Query {
     getUserById(id: ID!): User
     getUserByUsername(username: String!): User
     allUsers(page: Int!, size: Int!): UserPage
+
+    posts:[Post]!
     getPostById(id: ID!): Post
     allPosts(page: Int!, size: Int!): PostPage
+
+    comments:[Comment]!
+    getCommentById(id: ID!): Comment
+    allComments(page: Int!, size: Int!): CommentPage
+
+    likes:[Like]!
     getLikeById(id: ID!): Like
     allLikes(page: Int!, size: Int!): LikePage
 }
 
 type Mutation {
     createUser(input: CreateUserInput!): User
-    createPost(title: String!, content: String!): Post
-    createLike(title: String!, content: String!): Like
+    createPost(input: CreatePostInput!): Post
+    createComment(input: CreateCommentInput!): Comment
+    createLike(input: CreateLikeInput!): Like
 }
 
 type PostPage {
@@ -50,10 +59,10 @@ type Comment {
 
 type Like {
     id: ID!
-    createdAt: String
+    updatedAt: String
     user: [User]
     comment: [Comment]
-    likes: [Like]
+    post: [Post]
 }
 
 type LikePage {
@@ -63,6 +72,11 @@ type LikePage {
     hasPreviousPage: Boolean
 }
 
+input CreateLikeInput {
+    content: String!
+}
+
+
 input CreateUserInput {
     username: String!
     password: String!
@@ -70,6 +84,22 @@ input CreateUserInput {
     fullName: String
     bio: String
     profilePictureUrl: String
+}
+
+input CreatePostInput {
+    title: String!
+    content: String!
+}
+
+input CreateCommentInput {
+    content: String!
+}
+
+type CommentPage {
+    comments: [Comment]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
 }
 
 type UserPage {

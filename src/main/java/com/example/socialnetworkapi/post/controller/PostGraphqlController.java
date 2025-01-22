@@ -1,0 +1,58 @@
+package com.example.socialnetworkapi.post.controller;
+
+import com.example.socialnetworkapi.post.dto.CreatePostInput;
+import com.example.socialnetworkapi.post.dto.PostPage;
+import com.example.socialnetworkapi.post.node.Post;
+import com.example.socialnetworkapi.post.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+public class PostGraphqlController {
+    private final PostRepository postRepository;
+
+    public PostGraphqlController(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
+
+    @QueryMapping
+    public List<Post> posts() {
+        return postRepository.findAll();
+    }
+
+    @QueryMapping
+    public Optional<Post> getPostById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    @QueryMapping
+    public List<Post> getPostByTitleContaining(String title) {
+        return postRepository.findByTitleContaining(title);
+    }
+
+    @QueryMapping
+    public PostPage allPosts(int page, int size) {
+        Page<Post> postPage = postRepository.findAll(PageRequest.of(page, size));
+        return PostPage.builder()
+                .posts(postPage.getContent())
+                .totalCount((int) postPage.getTotalElements())
+                .hasNextPage(postPage.hasNext())
+                .hasPreviousPage(postPage.hasPrevious())
+                .build();
+    }
+
+    @MutationMapping
+    public Post createPost(@Argument("input") CreatePostInput createPostInput) {
+        Post post = new Post();
+        post.setTitle(createPostInput.getTitle());
+        post.setContent(createPostInput.getContent());
+        return postRepository.save(post);
+    }
+}
