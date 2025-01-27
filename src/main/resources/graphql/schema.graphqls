@@ -11,15 +11,24 @@ type Query {
 
     posts:[Post]!
     getPostById(id: ID!): Post
+    getPostByTitleContaining(title: String!): Post
     allPosts(page: Int!, size: Int!): PostPage
 
     comments:[Comment]!
     getCommentById(id: ID!): Comment
     allComments(page: Int!, size: Int!): CommentPage
 
-    likes:[Like]!
+    likeList:[Like]!
     getLikeById(id: ID!): Like
     allLikes(page: Int!, size: Int!): LikePage
+
+    followers:[Follower]!
+    getFollowerById(id: ID!): Follower
+    allFollowers(page: Int!, size: Int!): FollowerPage
+
+    followedList:[Followed]!
+    getFollowedById(id: ID!): Followed
+    allFollowedList(page: Int!, size: Int!): FollowedPage
 }
 
 type Mutation {
@@ -27,6 +36,8 @@ type Mutation {
     createPost(input: CreatePostInput!): Post
     createComment(input: CreateCommentInput!): Comment
     createLike(input: CreateLikeInput!): Like
+    createFollower(input: CreateFollowerInput!): Follower
+    createFollowed(input: CreateFollowedInput!): Followed
 }
 
 type PostPage {
@@ -72,10 +83,31 @@ type LikePage {
     hasPreviousPage: Boolean
 }
 
+type FollowerPage {
+    followers: [Follower]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+type FollowedPage {
+    followedList: [Followed]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
 input CreateLikeInput {
     content: String!
 }
 
+input CreateFollowerInput {
+    content: String!
+}
+
+input CreateFollowedInput {
+    content: String!
+}
 
 input CreateUserInput {
     username: String!
@@ -126,12 +158,8 @@ type User {
 
 type Follower {
     id: ID!
-    username: String
-    fullName: String
 }
 
 type Followed {
     id: ID!
-    username: String
-    fullName: String
 }
