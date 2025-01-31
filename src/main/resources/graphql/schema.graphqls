@@ -53,7 +53,7 @@ type Post {
     content: String!
     createdAt: String
     updatedAt: String
-    user: [User]
+    author: User!
     comments: [Comment]
     likes: [Like]
 }
@@ -121,6 +121,7 @@ input CreateUserInput {
 input CreatePostInput {
     title: String!
     content: String!
+    userId: ID!
 }
 
 input CreateCommentInput {
