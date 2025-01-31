@@ -9,4 +9,5 @@ import java.util.List;
 @GraphQlRepository
 public interface PostRepository extends Neo4jRepository<Post, Long> {
     List<Post> findByTitleContaining(String title);
+    List<Post> findByAuthorId(Long authorId);
 }

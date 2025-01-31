@@ -14,7 +14,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PostGraphqlController {
@@ -32,12 +31,12 @@ public class PostGraphqlController {
     }
 
     @QueryMapping
-    public Optional<Post> getPostById(Long id) {
-        return postRepository.findById(id);
+    public List<Post> getPostByAuthorId(@Argument Long userId) {
+        return postRepository.findByAuthorId(userId);
     }
 
     @QueryMapping
-    public List<Post> getPostByTitleContaining(String title) {
+    public List<Post> getPostByTitleContaining(@Argument String title) {
         return postRepository.findByTitleContaining(title);
     }
 
@@ -57,7 +56,6 @@ public class PostGraphqlController {
         Post post = new Post();
         post.setTitle(createPostInput.getTitle());
         post.setContent(createPostInput.getContent());
-
         User user = userRepository.findById(createPostInput.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
         post.setAuthor(user);
         return postRepository.save(post);

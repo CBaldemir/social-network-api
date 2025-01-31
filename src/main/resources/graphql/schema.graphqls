@@ -10,8 +10,8 @@ type Query {
     allUsers(page: Int!, size: Int!): UserPage
 
     posts:[Post]!
-    getPostById(id: ID!): Post
-    getPostByTitleContaining(title: String!): Post
+    getPostByAuthorId(userId: ID!): [Post]
+    getPostByTitleContaining(title: String!): [Post]
     allPosts(page: Int!, size: Int!): PostPage
 
     comments:[Comment]!
@@ -40,11 +40,35 @@ type Mutation {
     createFollowed(input: CreateFollowedInput!): Followed
 }
 
-type PostPage {
+type User {
+    id: ID!
+    username: String!
+    password: String!
+    email: String!
+    fullName: String
+    bio: String
+    profilePictureUrl: String
+    createdAt: String
+    updatedAt: String
     posts: [Post]
+    followers: [Follower]
+    followedList: [Followed]
+}
+
+type UserPage {
+    users: [User]
     totalCount: Int
     hasNextPage: Boolean
     hasPreviousPage: Boolean
+}
+
+input CreateUserInput {
+    username: String!
+    password: String!
+    email: String!
+    fullName: String
+    bio: String
+    profilePictureUrl: String
 }
 
 type Post {
@@ -58,14 +82,40 @@ type Post {
     likes: [Like]
 }
 
+type PostPage {
+    posts: [Post]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+input CreatePostInput {
+    title: String!
+    content: String!
+    userId: ID!
+}
+
 type Comment {
     id: ID!
     content: String!
     createdAt: String
     updatedAt: String
-    user: [User]
-    post: [Post]
+    author: User!
+    post: Post!
     likes: [Like]
+}
+
+input CreateCommentInput {
+    content: String!
+    userId: ID!
+    postId: ID!
+}
+
+type CommentPage {
+    comments: [Comment]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
 }
 
 type Like {
@@ -83,11 +133,28 @@ type LikePage {
     hasPreviousPage: Boolean
 }
 
+input CreateLikeInput {
+    content: String!
+}
+
+
+type Follower {
+    id: ID!
+}
+
 type FollowerPage {
     followers: [Follower]
     totalCount: Int
     hasNextPage: Boolean
     hasPreviousPage: Boolean
+}
+
+input CreateFollowerInput {
+    content: String!
+}
+
+type Followed {
+    id: ID!
 }
 
 type FollowedPage {
@@ -97,70 +164,6 @@ type FollowedPage {
     hasPreviousPage: Boolean
 }
 
-input CreateLikeInput {
-    content: String!
-}
-
-input CreateFollowerInput {
-    content: String!
-}
-
 input CreateFollowedInput {
     content: String!
-}
-
-input CreateUserInput {
-    username: String!
-    password: String!
-    email: String!
-    fullName: String
-    bio: String
-    profilePictureUrl: String
-}
-
-input CreatePostInput {
-    title: String!
-    content: String!
-    userId: ID!
-}
-
-input CreateCommentInput {
-    content: String!
-}
-
-type CommentPage {
-    comments: [Comment]
-    totalCount: Int
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
-}
-
-type UserPage {
-    users: [User]
-    totalCount: Int
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
-}
-
-type User {
-    id: ID!
-    username: String!
-    password: String!
-    email: String!
-    fullName: String
-    bio: String
-    profilePictureUrl: String
-    createdAt: String
-    updatedAt: String
-    posts: [Post]
-    followers: [Follower]
-    followedList: [Followed]
-}
-
-type Follower {
-    id: ID!
-}
-
-type Followed {
-    id: ID!
 }
