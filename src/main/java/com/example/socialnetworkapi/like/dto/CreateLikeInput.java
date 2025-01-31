@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateLikeInput {
-    private String content;
+    private Long userId;
+    private Long commentId;
+    private Long postId;
 }

@@ -14,12 +14,12 @@ type Query {
     getPostByTitleContaining(title: String!): [Post]
     allPosts(page: Int!, size: Int!): PostPage
 
-    comments:[Comment]!
-    getCommentById(id: ID!): Comment
+    comments:[Comment]
+    getCommentByPostId(postId: ID!): [Comment]
     allComments(page: Int!, size: Int!): CommentPage
 
     likeList:[Like]!
-    getLikeById(id: ID!): Like
+    getLikeByPostId(postId: ID!): [Like]
     allLikes(page: Int!, size: Int!): LikePage
 
     followers:[Follower]!
@@ -121,9 +121,9 @@ type CommentPage {
 type Like {
     id: ID!
     updatedAt: String
-    user: [User]
-    comment: [Comment]
-    post: [Post]
+    user: User
+    comment: Comment
+    post: Post
 }
 
 type LikePage {
@@ -134,7 +134,9 @@ type LikePage {
 }
 
 input CreateLikeInput {
-    content: String!
+    userId: ID!
+    postId: ID
+    commentId: ID
 }
 
 

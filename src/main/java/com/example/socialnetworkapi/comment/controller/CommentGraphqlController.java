@@ -16,7 +16,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class CommentGraphqlController {
@@ -36,8 +35,8 @@ public class CommentGraphqlController {
     }
 
     @QueryMapping
-    public Optional<Comment> getCommentById(Long id) {
-        return commentRepository.findById(id);
+    public List<Comment> getCommentByPostId(@Argument Long postId) {
+        return commentRepository.findByPostId(postId);
     }
 
     @QueryMapping

@@ -8,4 +8,5 @@ import java.util.List;
 
 @GraphQlRepository
 public interface LikeRepository extends Neo4jRepository<Like, Long> {
+    List<Like> findByPostId(Long postId);
 }
