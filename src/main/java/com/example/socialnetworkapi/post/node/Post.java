@@ -30,13 +30,13 @@ public class Post {
     private String content;
 
     @CreatedDate
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 
     @Relationship(type = "POSTED_BY", direction = Relationship.Direction.INCOMING)
-    private User user;
+    private User author;
 
     @Relationship(type = "COMMENTED", direction = Relationship.Direction.OUTGOING)
     private List<Comment> comments;

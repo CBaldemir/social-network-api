@@ -30,10 +30,10 @@ public class Comment {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 
     @Relationship(type = "COMMENTED_BY", direction = Relationship.Direction.INCOMING)
-    private User user;
+    private User author;
 
     @Relationship(type = "COMMENT_ON", direction = Relationship.Direction.INCOMING)
     private Post post;

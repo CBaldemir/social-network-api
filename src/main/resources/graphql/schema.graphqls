@@ -4,69 +4,40 @@ schema {
 }
 
 type Query {
+    users:[User]!
     getUserById(id: ID!): User
     getUserByUsername(username: String!): User
     allUsers(page: Int!, size: Int!): UserPage
-    getPostById(id: ID!): Post
+
+    posts:[Post]!
+    getPostByAuthorId(userId: ID!): [Post]
+    getPostByTitleContaining(title: String!): [Post]
     allPosts(page: Int!, size: Int!): PostPage
-    getLikeById(id: ID!): Like
+
+    comments:[Comment]
+    getCommentByPostId(postId: ID!): [Comment]
+    allComments(page: Int!, size: Int!): CommentPage
+
+    likeList:[Like]!
+    getLikeByPostId(postId: ID!): [Like]
     allLikes(page: Int!, size: Int!): LikePage
+
+    followers:[Follower]!
+    getFollowerById(id: ID!): Follower
+    allFollowers(page: Int!, size: Int!): FollowerPage
+
+    followedList:[Followed]!
+    getFollowedById(id: ID!): Followed
+    allFollowedList(page: Int!, size: Int!): FollowedPage
 }
 
 type Mutation {
-    createUser(username: String!, password: String!, email: String!, fullName: String, bio: String, profilePictureUrl: String): User
-    createPost(title: String!, content: String!): Post
-    createLike(title: String!, content: String!): Like
-}
-
-type PostPage {
-    posts: [Post]
-    totalCount: Int
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
-}
-
-type Post {
-    id: ID!
-    title: String!
-    content: String!
-    createdAt: String
-    updatedAt: String
-    user: [User]
-    comments: [Comment]
-    likes: [Like]
-}
-
-type Comment {
-    id: ID!
-    content: String!
-    createdAt: String
-    updatedAt: String
-    user: [User]
-    post: [Post]
-    likes: [Like]
-}
-
-type Like {
-    id: ID!
-    createdAt: String
-    user: [User]
-    comment: [Comment]
-    likes: [Like]
-}
-
-type LikePage {
-    likes: [Like]
-    totalCount: Int
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
-}
-
-type UserPage {
-    users: [User]
-    totalCount: Int
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
+    createUser(input: CreateUserInput!): User
+    createPost(input: CreatePostInput!): Post
+    createComment(input: CreateCommentInput!): Comment
+    createLike(input: CreateLikeInput!): Like
+    createFollower(input: CreateFollowerInput!): Follower
+    createFollowed(input: CreateFollowedInput!): Followed
 }
 
 type User {
@@ -84,14 +55,117 @@ type User {
     followedList: [Followed]
 }
 
+type UserPage {
+    users: [User]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+input CreateUserInput {
+    username: String!
+    password: String!
+    email: String!
+    fullName: String
+    bio: String
+    profilePictureUrl: String
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    createdAt: String
+    updatedAt: String
+    author: User!
+    comments: [Comment]
+    likes: [Like]
+}
+
+type PostPage {
+    posts: [Post]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+input CreatePostInput {
+    title: String!
+    content: String!
+    userId: ID!
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    createdAt: String
+    updatedAt: String
+    author: User!
+    post: Post!
+    likes: [Like]
+}
+
+input CreateCommentInput {
+    content: String!
+    userId: ID!
+    postId: ID!
+}
+
+type CommentPage {
+    comments: [Comment]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+type Like {
+    id: ID!
+    updatedAt: String
+    user: User
+    comment: Comment
+    post: Post
+}
+
+type LikePage {
+    likes: [Like]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+input CreateLikeInput {
+    userId: ID!
+    postId: ID
+    commentId: ID
+}
+
+
 type Follower {
     id: ID!
-    username: String
-    fullName: String
+}
+
+type FollowerPage {
+    followers: [Follower]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+input CreateFollowerInput {
+    content: String!
 }
 
 type Followed {
     id: ID!
-    username: String
-    fullName: String
+}
+
+type FollowedPage {
+    followedList: [Followed]
+    totalCount: Int
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+}
+
+input CreateFollowedInput {
+    content: String!
 }
